@@ -260,7 +260,7 @@ elif output == SURFACE_TIME:
    ax2.plot(times,stability);
    ax2.set_xlabel('time (days)');
    ax2.set_ylabel('Stability parameter');
-   f.show()
+   #f.show()
 
    f.savefig('/tmp/' + username + '/surface_time.png')
    
