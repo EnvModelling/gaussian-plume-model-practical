@@ -12,6 +12,10 @@ import sys
 from scipy.special import erfcinv as erfcinv
 import tqdm as tqdm
 import time
+import matplotlib
+matplotlib.use('agg')
+import getpass
+import os
 
 from gauss_func import gauss_func
 
@@ -22,6 +26,8 @@ rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 #rc('font',**{'family':'serif','serif':['Palatino']})
 rc('text', usetex=True)
 
+
+username=getpass.getuser()
 
 
 def smooth(y, box_pts):
@@ -202,6 +208,9 @@ else:
 
 # output the plots
 if output == PLAN_VIEW:
+   if not os.path.exists('/tmp/' + username):
+      os.mkdir('/tmp/' + username)
+
    plt.figure()
    plt.ion()
    
@@ -214,7 +223,11 @@ if output == PLAN_VIEW:
    cb1.set_label('$\mu$ g m$^{-3}$');
    plt.show()
 
+   plt.savefig('/tmp/' + username + '/plan_view.png')
+   
 elif output == HEIGHT_SLICE:
+   if not os.path.exists('/tmp/' + username):
+      os.mkdir('/tmp/' + username)
    plt.figure();
    plt.ion()
    
@@ -227,7 +240,11 @@ elif output == HEIGHT_SLICE:
    cb1.set_label('$\mu$ g m$^{-3}$');
    plt.show()
 
+   plt.savefig('/tmp/' + username + '/height_slice.png')
+
 elif output == SURFACE_TIME:
+   if not os.path.exists('/tmp/' + username):
+      os.mkdir('/tmp/' + username)
    f,(ax1, ax2) = plt.subplots(2, sharex=True, sharey=False)
    ax1.plot(times,1e6*np.squeeze(C1[y_slice,x_slice,:]));
    try:
@@ -244,6 +261,8 @@ elif output == SURFACE_TIME:
    ax2.set_xlabel('time (days)');
    ax2.set_ylabel('Stability parameter');
    f.show()
+
+   f.savefig('/tmp/' + username + '/surface_time.png')
    
 elif output == NO_PLOT:
    print('don''t plot');

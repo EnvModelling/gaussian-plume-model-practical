@@ -1,5 +1,16 @@
+import matplotlib
+matplotlib.use('agg')
+from matplotlib import rc
+import os
+
+import getpass
+
+username=getpass.getuser()
+
 def overlay_on_map():
     import scipy.io as sio
+    if not os.path.exists('/tmp/' + username):
+       os.mkdir('/tmp/' + username)
 
     # Overlay concentrations on map
     plt.ion()
@@ -16,6 +27,8 @@ def overlay_on_map():
     cs=plt.contour(x,y,np.mean(C1,axis=2)*1e6, cmap='hot')
     plt.clabel(cs,cs.levels,inline=True, fmt='%.1f',fontsize=5)
     plt.show()
+
+    plt.savefig("/tmp/" + username +  "/overlay.png")
     return
     
 if __name__ == "__main__":
